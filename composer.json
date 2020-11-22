@@ -1,0 +1,6 @@
+{
+    "require": {
+        "eleirbag89/telegrambotphp": "^1.3",
+        "claviska/simpleimage": "^3.5"
+    }
+}
