@@ -1,28 +1,19 @@
 <?php
+include (__DIR__ . '/vendor/autoload.php');
+define('API_KEY', '1487439829:AAELmueGWI_B3R8W66vEBQEQNtmGIt2LpZQ');
 
-define('API_KEY', '1463917846:AAGZu5eUr_nkYkMQxPddEJWNibffVzKcJR8');
-echo 'Ishlayapti';
-$Manager = "150105698";
-$compane = "infomir.uz";
 
-function bot($method, $datas = []){
-    $url = "https://api.telegram.org/bot".API_KEY."/" . $method;
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $datas);
-    $res = curl_exec($ch);
-    curl_close($ch);
-    if (!curl_error($ch)) return json_decode($res);
-};
+$telegram = new Telegram(API_KEY);
 
-function html($text){
-    return str_replace(['<','>'],['&#60;','&#62;'],$text);
-};
+$req = $telegram->getUpdates();
 
-$update = json_decode(file_get_contents('php://input'));
+for ($i = 0; $i < $telegram-> UpdateCount(); $i++) {
+    // You NEED to call serveUpdate before accessing the values of message in Telegram Class
+    $telegram->serveUpdate($i);
+    $text = $telegram->Text();
+    $chat_id = $telegram->ChatID();
+    $content = array('chat_id' => $chat_id, 'text' => '$reply');
+    $telegram->sendMessage($content);
 
-//test log
-file_put_contents("log.txt",file_get_contents('php://input'));
-
-https://api.telegram.org/bot'1463917846:AAGZu5eUr_nkYkMQxPddEJWNibffVzKcJR8'/setWebHook?url=https://goldenbrain.000webhostapp.com/
+    // DO OTHER STUFF
+}
